@@ -1,0 +1,12 @@
+// Tideway Process
+
+search DiscoveredProcess where
+username = 'tideway' and
+cmd = 'python' and
+args = '/usr/tideway/python/external_api/main.pyc --daemon start'
+show cmd, args, simple_identity
+
+// Network Manager Process
+
+search DiscoveredProcess where _last_marker
+show cmd, simple_identity process with countUnique(0)
