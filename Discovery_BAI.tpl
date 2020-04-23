@@ -7,9 +7,9 @@ metadata
 end metadata;
 
 table opMode 1.0
-    "0"  -> "Normal";
-    "1"  -> "Record";
-    "2"  -> "Playback";
+    "0"     -> "Normal";
+    "1"     -> "Record";
+    "2"     -> "Playback";
     default -> "Unknown";
 end table;
 

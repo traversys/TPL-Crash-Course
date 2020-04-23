@@ -6,11 +6,11 @@ metadata
     tree_path:= "Custom", "Traversys", "Network Manager";
 end metadata;
 
-pattern NetworkManager 1.2
+pattern NetworkManager 1.3
     """
         This pattern models the Linux NetworkManager Instance.
 
-        This pattern contains bugs!
+        This pattern no longer contains bugs!
 
         Author: Traversys
 
@@ -19,6 +19,7 @@ pattern NetworkManager 1.2
         1.0 : Created
         1.1 : Added SoftwareInstance and run Commands
         1.2 : Mistakes were made...
+        1.3 : Lessons were learned!
 
     """
 
@@ -38,8 +39,9 @@ pattern NetworkManager 1.2
 
         host := model.host(p);
         hostname := host.name;
+        version := none;
 
-        packages:= model.findPackages(host, "Network Manager" );
+        packages:= model.findPackages(host, [ "NetworkManager" ] );
 
         for package in packages do
             if "version" in package then
@@ -51,13 +53,13 @@ pattern NetworkManager 1.2
 
         if version then
             name:= "%type% %version% on %hostname%";
-            key:= hash("%hostname%/%type%/%version%");
+            key:= text.hash("%hostname%/%type%/%version%");
         else
             name:= "%type% on %hostname%";
-            key:= hash("%hostname%/%version%");
+            key:= text.hash("%hostname%/%version%");
         end if;
 
-        product_version:= regex.extract(version.result, regex "^(\d+(?:\.\d+)?)", raw "\1", no_match:= version.result);
+        product_version:= regex.extract(version, regex "^(\d+(?:\.\d+)?)", raw "\1", no_match:= version);
 
         si:= model.SoftwareInstance(key:= key,
                                     type:= type,
@@ -74,7 +76,7 @@ pattern NetworkManager 1.2
         if nmcli_cmd and nmcli_cmd.result then
             si.UUID := nmcli_cmd.result;
             log.debug("UUID found: %nmcli_cmd.result%");
-            model.addDisplayAttribute(si, "uuid");
+            model.addDisplayAttribute(si, "UUID");
         end if;
 
         if lspci_cmd and lspci_cmd.result then
