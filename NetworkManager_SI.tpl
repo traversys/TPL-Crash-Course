@@ -51,7 +51,7 @@ pattern NetworkManager 1.1
             key:= text.hash("%hostname%/%type%/%version%");
         else
             name:= "%type% on %hostname%";
-            key:= text.hash("%hostname%/%version%");
+            key:= text.hash("%hostname%/%type%");
         end if;
 
         product_version:= regex.extract(version, regex "^(\d+(?:\.\d+)?)", raw "\1", no_match:= version);
